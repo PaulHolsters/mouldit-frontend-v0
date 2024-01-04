@@ -17,6 +17,8 @@ import {
   List,
 } from "../../../types/union-types";
 import {HttpClient} from "@angular/common/http";
+import {ServerAction} from "../../../effectclasses/ServerAction";
+import {VerbType} from "../../../enums/VerbTypes.enum";
 
 // todo fix
 @Injectable({
@@ -54,7 +56,7 @@ export class ServerDataService {
       )
     }
     this.actionsService.bindToAction(new Action('',ActionType.ExecuteServerAction))?.subscribe(res=>{
-      if(res){
+      if(res && res.effect.action instanceof ServerAction){
         let effectAsSource:EffectAsSource|undefined = undefined
         if(isEffectIdType(res.effect.id,this.configService)){
           let source:number|undefined=undefined
@@ -64,16 +66,56 @@ export class ServerDataService {
           effectAsSource = [res.effect.id,source]
         }
         const action = res.effect.action
-        let body: {id:string}|undefined
+        let body: |undefined
+        let params=''
         if(isDataRecord(res.data)){
-          body = {id:res.data.id}
-        }
-        this.http.post('http://localhost:5000/' + action.id,body).subscribe(res=>{
-          if(isList(res)||isDataRecord(res)){
-            // todo controleer dat deze methode het effect aflevert na beëindiging
-            createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
+          if(typeof action.params === 'string'){
+            params = '?'+action.params+'='+res.data[params]
+            // todo
+            body = {id:res.data.id}
+          } else{
+            //todo
           }
-        })
+
+
+        }
+        switch (action.verb){
+          case VerbType.GET:
+            this.http.get(action.url + params).subscribe(res=>{
+              if(isList(res)||isDataRecord(res)){
+                //createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
+              }
+            })
+            break
+          case VerbType.POST:
+            this.http.post(action.url + action.id,body).subscribe(res=>{
+              if(isList(res)||isDataRecord(res)){
+                //createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
+              }
+            })
+            break
+          case VerbType.DELETE:
+            this.http.post(action.url + action.id,body).subscribe(res=>{
+              if(isList(res)||isDataRecord(res)){
+                //createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
+              }
+            })
+            break
+          case VerbType.PATCH:
+            this.http.post(action.url + action.id,body).subscribe(res=>{
+              if(isList(res)||isDataRecord(res)){
+                //createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
+              }
+            })
+            break
+          case VerbType.PUT:
+            this.http.post(action.url + action.id,body).subscribe(res=>{
+              if(isList(res)||isDataRecord(res)){
+                //createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
+              }
+            })
+            break
+        }
       }
     })
 
