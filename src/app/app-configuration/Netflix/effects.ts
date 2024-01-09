@@ -9,10 +9,10 @@ import {ActionValueModel} from "../../design-dimensions/ActionValueModel";
 import {Trigger} from "../../effectclasses/Trigger";
 import {ServerAction} from "../../effectclasses/ServerAction";
 import {EventsService} from "../../services/events.service";
-import {CursorValues} from "../../enums/cursorValues.enum";
 import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
 import {BorderColorType} from "../../enums/borderColorType.enum";
 import {BorderWidthType} from "../../enums/borderWidthType.enum";
+import {VerbType} from "../../enums/VerbTypes.enum";
 
 // todo als de scherm breedte manueel gewijzigd wordt dan gaan bepaalde opstart eigenschappen niet meegenomen worden
 //  zoals deze compute property
@@ -35,16 +35,16 @@ export const effects: Effect[] = [
       new ActionValueModel(PropertyName.height,setFooterHeight))),
   new Effect(
     new Trigger(TriggerType.MenuItemSelected,['menu','films']),
-    new ServerAction('getAllMovies','content')
+    new ServerAction('GET_films','localhost:4848/films',VerbType.GET,'content')
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked,'remove'),
-    new ServerAction('removeMovieFromList','content'),
+    new ServerAction('DELETE_van_mijn_lijst','localhost:4848/mijn-lijst',VerbType.DELETE,'content',undefined,'id'),
     'removing movie from my list'
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked,'add'),
-    new ServerAction('addMovieToList','content'),
+    new ServerAction('POST_op_mijn_lijst','localhost:4848/mijn-lijst',VerbType.PUT,'content',undefined,'id'),
     'adding movie to my list'
   ),
   new Effect(

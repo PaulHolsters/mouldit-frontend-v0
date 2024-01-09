@@ -5,7 +5,6 @@ import {ActionType} from "../enums/actionTypes.enum";
 import {Action} from "../effectclasses/Action";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {Datalink} from "../design-dimensions/datalink";
-import {config} from "rxjs";
 
 export type ConceptNameType = string
 export type ComponentNameType = string

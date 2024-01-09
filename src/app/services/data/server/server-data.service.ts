@@ -66,23 +66,27 @@ export class ServerDataService {
           effectAsSource = [res.effect.id,source]
         }
         const action = res.effect.action
-        let body: |undefined
+        let body: DataRecord|undefined
         let params=''
         if(isDataRecord(res.data)){
           if(typeof action.params === 'string'){
             params = '?'+action.params+'='+res.data[params]
-            // todo
-            body = {id:res.data.id}
+            if(!action.body){
+              let restData = {...res.data}
+              delete restData[action.params]
+              body = restData
+            } else{
+              // todo
+            }
           } else{
             //todo
           }
-
-
         }
         switch (action.verb){
           case VerbType.GET:
-            this.http.get(action.url + params).subscribe(res=>{
-              if(isList(res)||isDataRecord(res)){
+            this.http.get<{data:any}>('http://'+action.url + params).subscribe((res)=>{
+              if(isList(res.data)||isDataRecord(res.data)){
+                debugger
                 //createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
               }
             })

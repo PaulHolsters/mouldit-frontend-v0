@@ -329,7 +329,7 @@ export type OutputData = List|DataRecord|RenderPropertyType|RenderPropertyTypeLi
 export const isDataRecord = function isDataRecord(data:unknown):data is DataRecord{
   // todo voeg controle toe betreffende de andere properties rekening houdende met het feit dat hier geen restricties
   //      bestaan op hoe diep je kan nesten
-  return data!==null && typeof data === 'object' && !(data instanceof Array) && 'id' in data
+  return data!==null && typeof data === 'object' && !(data instanceof Array) && '_id' in data
 }
 export const isList = function isList(data:unknown):data is List{
   return (data instanceof Array) && (data.length===0 || isDataRecord(data[0]))

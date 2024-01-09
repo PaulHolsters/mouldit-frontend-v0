@@ -129,7 +129,7 @@ export class UiActionsService {
         const target = this.configService.effects.map(e => {
           return e.action.target
         }).find(t => {
-          return typeof t !== 'string' && t.controls.map(c => {
+          return typeof t !== 'string' && t?.controls.map(c => {
             return c.target
           }).includes(dl.name)
         })
