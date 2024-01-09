@@ -39,12 +39,12 @@ export const effects: Effect[] = [
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked,'remove'),
-    new ServerAction('DELETE_van_mijn_lijst','localhost:4848/mijn-lijst',VerbType.DELETE,'content',undefined,'id'),
+    new ServerAction('DELETE_van_mijn_lijst','localhost:4848/mijn-lijst/remove/659bd2769fd74132944d1171/:_id',VerbType.PUT,'content',undefined),
     'removing movie from my list'
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked,'add'),
-    new ServerAction('POST_op_mijn_lijst','localhost:4848/mijn-lijst',VerbType.PUT,'content',undefined,'id'),
+    new ServerAction('POST_op_mijn_lijst','localhost:4848/mijn-lijst/add/659bd2769fd74132944d1171/:_id',VerbType.PUT,'content',undefined),
     'adding movie to my list'
   ),
   new Effect(

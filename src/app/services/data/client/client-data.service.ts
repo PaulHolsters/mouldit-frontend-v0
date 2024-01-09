@@ -178,9 +178,7 @@ export class ClientDataService {
     if(isComponentName(componentName,this.configService) && data){
       // todo maak ook de children en grandchildren when repeated components
       this._clientData.push(new ClientData(actionId, componentName, data, errorMessages))
-      debugger
       const cd = this.getClientDataInstanceForComponent(componentName)
-      debugger
       if (cd) this.clientDataUpdated.next({clientData:cd,effectAsSource:effectAsSource})
     }
 /*    if (blueprint) {

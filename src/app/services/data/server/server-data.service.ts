@@ -55,6 +55,20 @@ export class ServerDataService {
         effectAsSource
       )
     }
+    function getUrl(url:string,data:DataRecord):[string,DataRecord]{
+      let body:DataRecord = {...data}
+      const parts = url.split('/:')
+      let newUrl  = parts[0]
+      if(parts.length>1){
+        parts.splice(1).forEach(p=>{
+          if(data[p.trim()]){
+            delete body[p.trim()]
+            newUrl+='/'+data[p.trim()].toString()
+          }
+        })
+      }
+      return ['http://'+newUrl,body]
+    }
     this.actionsService.bindToAction(new Action('',ActionType.ExecuteServerAction))?.subscribe(res=>{
       if(res && res.effect.action instanceof ServerAction){
         let effectAsSource:EffectAsSource|undefined = undefined
@@ -66,56 +80,65 @@ export class ServerDataService {
           effectAsSource = [res.effect.id,source]
         }
         const action = res.effect.action
-        let body: DataRecord|undefined
+        let body:{
+          [key: string]: any
+      }|undefined
+        let url:string
         let params=''
         if(isDataRecord(res.data)){
-          if(typeof action.params === 'string'){
-            params = '?'+action.params+'='+res.data[params]
-            if(!action.body){
-              let restData = {...res.data}
-              delete restData[action.params]
-              body = restData
-            } else{
-              // todo
-            }
-          } else{
-            //todo
-          }
+          body = {...res.data}
+          // todo het probleem is dat behalve body en params ook de url properties een invloed hebben
+          //      op welke properties er van data.record nog nodig zijn
+        } else{
+
+        }
+        if(typeof action.params === 'string'){
+          params = '?'+action.params+'='+res.data[action.params]
+          if(body)delete body[action.params]
+        } else{
+          //todo creeer params op basis van action.params
+          // todo verwijder deze props ook uit de body
+        }
+        const [finalUrl,finalBody] = getUrl(action.url,res.data)
+        url = finalUrl
+        if(!action.body){
+          Object.keys(finalBody).forEach(k=>{
+            if(body)delete body[k]
+          })
         }
         switch (action.verb){
           case VerbType.GET:
-            debugger
-            this.http.get<{data:any}>('http://'+action.url + params).subscribe((res)=>{
-              debugger
+            this.http.get<{data:any}>(url + params).subscribe((res)=>{
               if(isList(res.data)||isDataRecord(res.data) && !isNoValueType(action.target)){
                 if (action.target)createOrUpdateClientData(this,action.id, action.target,undefined,res.data,effectAsSource)
               }
             })
             break
           case VerbType.POST:
-            this.http.post(action.url + action.id,body).subscribe(res=>{
+            this.http.post(url + params,body).subscribe(res=>{
               if(isList(res)||isDataRecord(res)){
                 //createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
               }
             })
             break
           case VerbType.DELETE:
-            this.http.post(action.url + action.id,body).subscribe(res=>{
+            this.http.delete(url + params).subscribe(res=>{
               if(isList(res)||isDataRecord(res)){
                 //createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
               }
             })
             break
           case VerbType.PATCH:
-            this.http.post(action.url + action.id,body).subscribe(res=>{
+            this.http.patch(url + params,body).subscribe(res=>{
               if(isList(res)||isDataRecord(res)){
                 //createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
               }
             })
             break
           case VerbType.PUT:
-            this.http.post(action.url + action.id,body).subscribe(res=>{
-              if(isList(res)||isDataRecord(res)){
+            this.http.put<{data:any}>(url + params,body).subscribe(res=>{
+              if(isList(res.data)||isDataRecord(res.data)){
+                debugger
                 //createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
               }
             })
