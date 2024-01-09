@@ -13,7 +13,7 @@ import {
 } from "../../../types/type-aliases";
 import {ClientDataService} from "../client/client-data.service";
 import {
-  DataRecord, isDataRecord, isList,
+  DataRecord, isDataRecord, isList, isNoValueType,
   List,
 } from "../../../types/union-types";
 import {HttpClient} from "@angular/common/http";
@@ -84,10 +84,11 @@ export class ServerDataService {
         }
         switch (action.verb){
           case VerbType.GET:
+            debugger
             this.http.get<{data:any}>('http://'+action.url + params).subscribe((res)=>{
-              if(isList(res.data)||isDataRecord(res.data)){
-                debugger
-                //createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
+              debugger
+              if(isList(res.data)||isDataRecord(res.data) && !isNoValueType(action.target)){
+                if (action.target)createOrUpdateClientData(this,action.id, action.target,undefined,res.data,effectAsSource)
               }
             })
             break
