@@ -310,7 +310,7 @@ export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Mu
 export type DataRecord= {
   [key:string]: List|DataRecord|RenderPropertyType|RenderPropertyTypeList<RenderPropertyType>
 } & {
-  id: ObjectIdType
+  _id: ObjectIdType
 }
 export type List = Array<DataRecord>
 export type RenderPropertyType = (boolean|number|Date|string)& {

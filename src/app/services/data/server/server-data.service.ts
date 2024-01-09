@@ -138,8 +138,7 @@ export class ServerDataService {
           case VerbType.PUT:
             this.http.put<{data:any}>(url + params,body).subscribe(res=>{
               if(isList(res.data)||isDataRecord(res.data)){
-                debugger
-                //createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
+                if (action.target)createOrUpdateClientData(this,action.id, action.target,undefined,res.data,effectAsSource)
               }
             })
             break

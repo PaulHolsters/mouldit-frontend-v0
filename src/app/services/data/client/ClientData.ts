@@ -18,7 +18,7 @@ export class ClientData {
         this.outputData[field] = data
       }else if(isDataRecord(data) && isList(this.outputData)){
         this.outputData.splice(this.outputData.findIndex(od=>{
-          return od.id === data.id
+          return od._id === data._id
         }),1,{...data})
       }else{
         this.outputData = data

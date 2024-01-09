@@ -55,7 +55,7 @@ export class ClientDataService {
           } else {
             concept = extractConcept(res.effect.action.conceptName,this.configService)
           }
-          objectId = res.data[1].id
+          objectId = res.data[1]._id
         } else if (res.data[1].length > 0) {
           const record = res.data[1].find(it => {
             return it !== null
@@ -66,7 +66,7 @@ export class ClientDataService {
           } else {
             concept = extractConcept(res.effect.action.conceptName,this.configService)
           }
-          objectId = record.id
+          objectId = record._id
         } else throw new Error('invalid frontend data type => list cannot be of length 0')
         // einde invullen objectId en concept
         if (!concept) throw new Error('concept name could not be reconstructed')
