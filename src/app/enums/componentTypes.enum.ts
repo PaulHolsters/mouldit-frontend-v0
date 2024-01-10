@@ -24,4 +24,5 @@ export enum ComponentType {
   ConfirmPopup,
   Toolbar,
   Text,
+  Toast,
 }

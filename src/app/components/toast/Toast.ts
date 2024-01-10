@@ -6,29 +6,38 @@ import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/Resp
 import {
   ResponsiveIndividualLayoutConfigModel
 } from "../../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
-import {
-  ResponsiveStructuralButtonConfigModel
-} from "../../design-dimensions/StructuralConfig/button/ResponsiveStructuralButtonConfigModel";
-import {
-  ResponsiveStylingButtonConfigModel
-} from "../../design-dimensions/Styling/button/ResponsiveStylingButtonConfigModel";
 import {ComponentModelType} from "../../types/union-types";
 import {ComponentType} from "../../enums/componentTypes.enum";
 import {
   ResponsiveContentInjectionToastConfigModel
 } from "../../design-dimensions/ContentInjection/toast/ResponsiveContentInjectionToastConfigModel";
+import {
+  ResponsiveToastLayoutConfigModel
+} from "../../design-dimensions/ComponentSpecificLayout/Toast/ResponsiveToastLayoutConfigModel";
+import {
+  ResponsiveStructuralToastConfigModel
+} from "../../design-dimensions/StructuralConfig/toast/ResponsiveStructuralToastConfigModel";
+import {
+  ResponsiveTableLayoutConfigModel
+} from "../../design-dimensions/ComponentSpecificLayout/Table/ResponsiveTableLayoutConfigModel";
+import {
+  ToastContentInjectionConfigModel
+} from "../../design-dimensions/ContentInjection/toast/ToastContentInjectionConfigModel";
+import {
+  ResponsiveContentInjectionTableConfigModel
+} from "../../design-dimensions/ContentInjection/table/ResponsiveContentInjectionTableConfigModel";
 export class Toast implements ComponentI<
   ResponsiveContentInjectionToastConfigModel,
+  ResponsiveStructuralToastConfigModel,
   undefined,
-  undefined,
-  undefined,
+  ResponsiveToastLayoutConfigModel,
   undefined,
   undefined>{
   constructor(name:string) {
     this.name = name
   }
   name:string
-  type=ComponentType.Button
+  type=ComponentType.Toast
   spacing = new ResponsiveSpacingConfigModel()
   setSpacing(spacing:ResponsiveSpacingConfigModel){
     this.spacing = spacing
@@ -54,22 +63,25 @@ export class Toast implements ComponentI<
     this.individualLayout=il
     return this
   }
-
-  setStructural(str: ResponsiveStructuralButtonConfigModel): ComponentModelType {
+  componentSpecificLayout = new ResponsiveToastLayoutConfigModel()
+  setComponentSpecificLayout(csl: ResponsiveToastLayoutConfigModel): ComponentModelType {
+    this.componentSpecificLayout = csl
+    return this
+  }
+  setContentInjection(ci:ResponsiveContentInjectionToastConfigModel){
+    this.contentInjection=ci
+    return this
+  }
+  contentInjection = new ResponsiveContentInjectionToastConfigModel(new ToastContentInjectionConfigModel())
+  setStructural(str: ResponsiveStructuralToastConfigModel): ComponentModelType {
     this.structural = str
     return this
   }
-  structural= new ResponsiveStructuralButtonConfigModel()
-  setStyling(styling: ResponsiveStylingButtonConfigModel): ComponentModelType {
-    this.styling = styling
-    return this
-  }
-  styling = new ResponsiveStylingButtonConfigModel()
-  componentSpecificLayout: undefined
-  contentInjection: undefined
+  structural= new ResponsiveStructuralToastConfigModel()
+
+  setStyling:undefined
+  styling:undefined
   dataRepresentation: undefined
-  setComponentSpecificLayout: undefined
-  setContentInjection: undefined
   setDataRepresentation: undefined
   clientData = undefined
   setClientData = undefined

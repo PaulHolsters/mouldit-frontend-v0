@@ -137,4 +137,5 @@ export enum PropertyName {
   borderColor = 'borderColor',
   borderWidth = 'borderWidth',
   templateComponent = 'templateComponent',
+  message = 'message',
 }

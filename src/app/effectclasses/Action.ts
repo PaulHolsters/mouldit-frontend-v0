@@ -36,6 +36,11 @@ export class Action {
         this.serviceMethod = ServiceMethodType.SetResponsiveBehaviour
         this.targetType = TargetType.Client
         break
+      case ActionType.ShowToastMessage:
+        this.service = ServiceType.UIService
+        this.serviceMethod = ServiceMethodType.SetToast
+        this.targetType = TargetType.Client
+        break
       case ActionType.CreateStore:
         this.service = ServiceType.RenderPropertiesService
         this.serviceMethod = ServiceMethodType.CreateStore

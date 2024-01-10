@@ -1,6 +1,5 @@
 import {ComponentConfigModel} from "../ComponentConfigModel";
 import {CursorValues} from "../../enums/cursorValues.enum";
-import {NoValueType} from "../../enums/NoValueTypes.enum";
 
 export class ComponentStructuralConfigModel extends ComponentConfigModel{
   public repeater:boolean=false

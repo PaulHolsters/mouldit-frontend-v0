@@ -27,4 +27,5 @@ export enum ServiceMethodType {
   UpdateDataDependedProperties,
   SetUpIndexedComponent,
   DeleteEffect,
+  SetToast,
 }

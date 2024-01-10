@@ -2,7 +2,7 @@ import {ComponentType} from "../../../enums/componentTypes.enum";
 import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
 import {ComponentModel} from "../../models/ComponentModel";
 import {ResponsiveChildLayoutConfigModel} from "../../models/Layout/ResponsiveContainerChildLayoutConfigModel";
-import {ChildLayoutConfigModel} from "../../models/Layout/TableLayoutConfigModel";
+import {ChildLayoutConfigModel} from "../../models/Layout/ToastLayoutConfigModel";
 import {HorizontalLayoutConfigPropsModel} from "../../models/Layout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "../../../enums/axisConfigTypes.enum";
 import {CrossAxisHorizontalPositioningConfigType} from "../../../enums/HorizontalColumnLayoutConfigTypes.enum";

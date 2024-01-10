@@ -1,5 +1,5 @@
 import {ResponsiveChildLayoutConfigModel} from "../../models/Layout/ResponsiveContainerChildLayoutConfigModel";
-import {ChildLayoutConfigModel} from "../../models/Layout/TableLayoutConfigModel";
+import {ChildLayoutConfigModel} from "../../models/Layout/ToastLayoutConfigModel";
 import {HorizontalLayoutConfigPropsModel} from "../../models/Layout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "../../../enums/axisConfigTypes.enum";
 import {CrossAxisHorizontalPositioningConfigType} from "../../../enums/HorizontalColumnLayoutConfigTypes.enum";

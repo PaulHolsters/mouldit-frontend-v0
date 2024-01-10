@@ -11,7 +11,7 @@ import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {
-  ActionIdType,
+  ActionIdType, ComponentAsSource,
   ComponentNameType, EffectAsSource, EffectIdType, isComponentAsSource, isComponentName,
   isDataLink,
   isFormTargetType,
@@ -39,7 +39,7 @@ import {ResponsiveOverflowConfigModel} from '../design-dimensions/Overflow/Respo
 import {ResponsiveSizeConfigModel} from '../design-dimensions/Size/ResponsiveSizeConfigModel';
 import {ResponsiveVisibilityConfigModel} from '../design-dimensions/Visibility/ResponsiveVisibilityConfigModel';
 import {Datalink} from "../design-dimensions/datalink";
-import {MessageService} from "primeng/api";
+import {Message, MessageService} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
@@ -54,8 +54,7 @@ export class UiActionsService {
     private actionsService: ActionsService,
     private RBS: ResponsiveBehaviourService,
     private dataService: ServerDataService,
-    private clientDataService: ClientDataService,
-    private messageService:MessageService) {
+    private clientDataService: ClientDataService) {
     this.actionsService.bindToActionsEmitter.subscribe(res => {
       this.bindActions()
     })
@@ -397,7 +396,10 @@ export class UiActionsService {
 
   private showToast(action:any) {
     debugger
-    this.messageService.add({severity: 'success', summary: 'Success', detail: 'Message Content'})
+    const message:Message = { severity: 'success', summary: 'Success', detail: 'Message Content' }
+    this.renderPropertiesService.getStatePropertySubjects().find(prop => {
+      return prop.componentName === action.target;
+    })?.propValue.next(message)
     return true
   }
 }
