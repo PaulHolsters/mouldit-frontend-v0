@@ -204,6 +204,7 @@ import {
   ResponsiveStructuralToastConfigModel
 } from "../design-dimensions/StructuralConfig/toast/ResponsiveStructuralToastConfigModel";
 import {Toast} from "../components/toast/Toast";
+import {Message} from "primeng/api";
 
 // todo deze union types moeten opnieuw aangevuld worden
 

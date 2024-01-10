@@ -23,6 +23,7 @@ export abstract class SystemEffects {
           NoValueType.NO_VALUE_ALLOWED,
           new ActionValueModel(PropertyName.reset, true))
       ),
+      // todo zorg dat een action ook getriggered kan worden bij action finished voor een server action ipv enkel een gewone action
       new Effect(
       new Trigger(TriggerType.ActionFinished, 'create_store'),
       new Action('set_RBS',ActionType.SetGlobalResponsiveBehaviour,undefined,undefined)
@@ -43,18 +44,6 @@ export abstract class SystemEffects {
         new Trigger(TriggerType.IndexUpdated,ServiceType.DataService),
         new Action('set_up_indexed_component',ActionType.SetUpIndexedComponent)
       ),
-/*      new Effect(
-        new Trigger(TriggerType.ActionFinished,ServiceType.AnyService),
-        new Action('terminate_running_effect',ActionType.TerminateRunningEffect)
-      ),*/
-/*      new Effect(
-        new Trigger(TriggerType.InstanceNeeded, ServiceType.DataService),
-        new Action('get_data_instance',ActionType.GetInstance)
-      ),
-      new Effect(
-        new Trigger(TriggerType.AllInstancesNeeded, ServiceType.DataService),
-        new Action('get_all_data_instances',ActionType.GetAllInstances)
-      )*/
     ]
   }
 }

@@ -48,6 +48,10 @@ export const effects: Effect[] = [
     'adding movie to my list'
   ),
   new Effect(
+    new Trigger(TriggerType.ActionFinished, 'POST_op_mijn_lijst'),
+    new Action('set_toast_message',ActionType.ShowToastMessage,'toast')
+  ),
+  new Effect(
     new Trigger(TriggerType.ComponentClicked,'movie','movie-card-clicked',allowDetails),
     new Action('showMovieDetails',ActionType.SetRenderProperty,'movie-details-dialog',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.visible, true)),
