@@ -21,4 +21,5 @@ export enum TriggerType {
   IndexUpdated,
   ComponentEntered,
   ComponentLeft,
+  ComponentClosed,
 }

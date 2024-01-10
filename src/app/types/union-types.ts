@@ -188,13 +188,23 @@ import {
 import {CardStylingConfigModel} from "../design-dimensions/Styling/card/CardStylingConfigModel";
 import {CardStylingRenderModel} from "../design-dimensions/Styling/card/CardStylingRenderModel";
 import {ResponsiveStylingCardConfigModel} from "../design-dimensions/Styling/card/ResponsiveStylingCardConfigModel";
+import {
+  ResponsiveContentInjectionToastConfigModel
+} from "../design-dimensions/ContentInjection/toast/ResponsiveContentInjectionToastConfigModel";
+import {
+  ToastContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/toast/ToastContentInjectionConfigModel";
+import {
+  ToastContentInjectionRenderModel
+} from "../design-dimensions/ContentInjection/toast/ToastContentInjectionRenderModel";
 
 // todo deze union types moeten opnieuw aangevuld worden
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
   MenubarContentInjectionConfigModel|
-  TableContentInjectionConfigModel|never
+  TableContentInjectionConfigModel|
+  ToastContentInjectionConfigModel|never
 export type ComponentSpecificLayoutConfigModelType =
   ChildLayoutConfigModel |
   TableLayoutConfigModel | never
@@ -236,7 +246,8 @@ export type ConfigModelType =
 export type ContentInjectionRenderModelType =
   DialogContentInjectionRenderModel |
   MenubarContentInjectionRenderModel|
-  TableContentInjectionRenderModel|never
+  TableContentInjectionRenderModel|
+  ToastContentInjectionRenderModel|never
 export type ComponentSpecificLayoutRenderModelType =
   ChildLayoutRenderModel |
   TableLayoutRenderModel | never
@@ -301,7 +312,8 @@ export type ResponsiveDataInputConfigModelType =
 export type ResponsiveContentInjectionConfigModelType =
   ResponsiveContentInjectionDialogConfigModel|
   ResponsiveContentInjectionMenubarConfigModel|
-  ResponsiveContentInjectionTableConfigModel|never
+  ResponsiveContentInjectionTableConfigModel|
+  ResponsiveContentInjectionToastConfigModel|never
 export type ResponsiveComponentSpecificLayoutConfigModelType =
   ResponsiveContainerChildLayoutConfigModel|
   ResponsiveTableLayoutConfigModel|never

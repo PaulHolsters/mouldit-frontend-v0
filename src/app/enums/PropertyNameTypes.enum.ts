@@ -136,4 +136,5 @@ export enum PropertyName {
   backgroundColor ='backgroundColor',
   borderColor = 'borderColor',
   borderWidth = 'borderWidth',
+  templateComponent = 'templateComponent',
 }

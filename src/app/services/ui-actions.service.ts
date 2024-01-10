@@ -39,6 +39,7 @@ import {ResponsiveOverflowConfigModel} from '../design-dimensions/Overflow/Respo
 import {ResponsiveSizeConfigModel} from '../design-dimensions/Size/ResponsiveSizeConfigModel';
 import {ResponsiveVisibilityConfigModel} from '../design-dimensions/Visibility/ResponsiveVisibilityConfigModel';
 import {Datalink} from "../design-dimensions/datalink";
+import {MessageService} from "primeng/api";
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +54,8 @@ export class UiActionsService {
     private actionsService: ActionsService,
     private RBS: ResponsiveBehaviourService,
     private dataService: ServerDataService,
-    private clientDataService: ClientDataService) {
+    private clientDataService: ClientDataService,
+    private messageService:MessageService) {
     this.actionsService.bindToActionsEmitter.subscribe(res => {
       this.bindActions()
     })
@@ -63,6 +65,14 @@ export class UiActionsService {
     this.actionsService.bindToAction(new Action('', ActionType.SetLocalConfigurationValueAndRebuild))?.subscribe(res => {
       if (res && res.effect.action instanceof Action) {
         const action = this.setConfigValueAndRebuild(res.effect.action)
+        if (action) {
+          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+        }
+      }
+    })
+    this.actionsService.bindToAction(new Action('', ActionType.ShowToastMessage))?.subscribe(res => {
+      if (res && res.effect.action instanceof Action) {
+        const action = this.showToast(res.effect.action)
         if (action) {
           this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
         }
@@ -382,6 +392,12 @@ export class UiActionsService {
             })?.propValue.next(cm)
           } else throw new Error('Component with name '+action.target+ ' could not be found')
         }*/
+    return true
+  }
+
+  private showToast(action:any) {
+    debugger
+    this.messageService.add({severity: 'success', summary: 'Success', detail: 'Message Content'})
     return true
   }
 }

@@ -1,0 +1,5 @@
+<p-toast (onClose)="trigger(TriggerType.ComponentClosed,$event)">
+  <ng-template [ngIf]="getPropValue(PropertyName.templateComponent)" let-message pTemplate="message">
+    <m-anchor [data]="message" [component]="getPropValue(PropertyName.templateComponent)"></m-anchor>
+  </ng-template>
+</p-toast>

@@ -46,6 +46,8 @@ import { ConfirmPopupComponent } from './components/confirm-popup/confirm-popup.
 import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ToolbarModule} from "primeng/toolbar";
+import { ToastComponent } from './components/toast/toast.component';
+import {ToastModule} from "primeng/toast";
 
 @NgModule({
   declarations: [
@@ -76,29 +78,31 @@ import {ToolbarModule} from "primeng/toolbar";
     IconComponent,
     PaginatorComponent,
     ConfirmPopupComponent,
-    ContainerComponent
+    ContainerComponent,
+    ToastComponent
   ],
-  imports: [
-    BrowserModule,
-    CardModule,
-    ButtonModule,
-    MenubarModule,
-    InputTextModule,
-    ImageModule,
-    FormsModule,
-    GraphQLModule,
-    HttpClientModule,
-    KeyFilterModule,
-    InputNumberModule,
-    RadioButtonModule,
-    MultiSelectModule,
-    BrowserAnimationsModule,
-    TableModule,
-    DialogModule,
-    PaginatorModule,
-    ConfirmPopupModule,
-    ToolbarModule
-  ],
+    imports: [
+        BrowserModule,
+        CardModule,
+        ButtonModule,
+        MenubarModule,
+        InputTextModule,
+        ImageModule,
+        FormsModule,
+        GraphQLModule,
+        HttpClientModule,
+        KeyFilterModule,
+        InputNumberModule,
+        RadioButtonModule,
+        MultiSelectModule,
+        BrowserAnimationsModule,
+        TableModule,
+        DialogModule,
+        PaginatorModule,
+        ConfirmPopupModule,
+        ToolbarModule,
+        ToastModule
+    ],
   providers: [ConfirmationService,MessageService],
   bootstrap: [AppComponent]
 })
