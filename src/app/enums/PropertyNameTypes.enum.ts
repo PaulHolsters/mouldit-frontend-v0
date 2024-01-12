@@ -138,4 +138,5 @@ export enum PropertyName {
   borderWidth = 'borderWidth',
   templateComponent = 'templateComponent',
   message = 'message',
+  elRef='elRef',
 }

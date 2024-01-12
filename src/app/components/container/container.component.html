@@ -19,6 +19,10 @@
   [class.align-content-evenly]="getPropValue(PropertyName.alignContentEvenly)"
   [class.align-content-around]="getPropValue(PropertyName.alignContentAround)"
   [class.align-content-between]="getPropValue(PropertyName.alignContentBetween)"
+  [style.height]="getPropValue(PropertyName.height)"
+  [style.width]="getPropValue(PropertyName.width)"
+
+
   [class.overflow-hidden]="getPropValue(PropertyName.overflowHidden)"
   [class.overflow-x-hidden]="getPropValue(PropertyName.overflowXHidden)"
   [class.overflow-auto]="getPropValue(PropertyName.overflowAuto)"
@@ -30,8 +34,7 @@
 
   [class.visibilityHidden]="!getPropValue(PropertyName.visible) && getPropValue(PropertyName.holdSpace)"
 
-  [style.height]="getPropValue(PropertyName.height)"
-  [style.width]="getPropValue(PropertyName.width)"
+
   [class.bg-primary]="getPropValue(PropertyName.backgroundColorPrimary)"
   [class.bg-white]="getPropValue(PropertyName.backgroundColorWhite)"
   [class.bg-orange-400]="getPropValue(PropertyName.backgroundColorDanger)"
@@ -60,6 +63,8 @@
             dit heb ik weggedaan maar het ziet er risky uit
             (child.type !== ComponentType.Container) ? : ''
            todo moeten de andere is container checks dan ook niet gewoon weg?
+
+     TODO bij repeater moet bovenste div props overgenomen worden
       -->
       <div
         [class.visibilityHidden]="
@@ -71,8 +76,33 @@
       &&!((bindToStateProperty(child.name,PropertyName.visible,index)|async)
       && !(bindToStateProperty(child.name,PropertyName.holdSpace,index)|async))"
 
-        [style.height]="(bindToStateProperty(child.name,PropertyName.height,index)|async)"
-        [style.width]="(bindToStateProperty(child.name,PropertyName.width,index)|async)"
+        [style.height]="
+        (bindToStateProperty(child.name,PropertyName.repeater,index)|async)!==true ?
+        (bindToStateProperty(child.name,PropertyName.height,index)|async) : getPropValue(PropertyName.height)"
+        [style.width]="
+        (bindToStateProperty(child.name,PropertyName.repeater,index)|async)!==true ?
+        (bindToStateProperty(child.name,PropertyName.width,index)|async) : getPropValue(PropertyName.width)"
+
+        [class.flex-row]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.row):false"
+        [class.flex-column]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.column):false"
+        [class.flex-wrap]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.wrap):false"
+        [class.justify-content-start]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.justifyContentStart):false"
+        [class.justify-content-center]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.justifyContentCenter):false"
+        [class.justify-content-end]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.justifyContentEnd):false"
+        [class.justify-content-evenly]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.justifyContentEvenly):false"
+        [class.justify-content-around]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.justifyContentAround):false"
+        [class.justify-content-between]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.justifyContentBetween):false"
+        [class.align-items-start]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.alignItemsStart):false"
+        [class.align-items-center]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.alignItemsCenter):false"
+        [class.align-items-end]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.alignItemsEnd):false"
+        [class.align-items-stretch]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.alignItemsStretch):false"
+        [class.align-content-start]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.alignContentStart):false"
+        [class.align-content-center]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.alignContentCenter):false"
+        [class.align-content-end]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.alignContentEnd):false"
+        [class.align-content-evenly]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.alignContentEvenly):false"
+        [class.align-content-around]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.alignContentAround):false"
+        [class.align-content-between]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.alignContentBetween):false"
+
         [class.align-self-stretch]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.alignItemsStretch,index)|async) "
         [class.overflow-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowHidden,index)|async)"
         [class.overflow-x-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowXHidden,index)|async)"
@@ -83,26 +113,22 @@
         [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
-        [class.flex]="(child.type === ComponentType.Form)"
+        [class.flex]="(child.type === ComponentType.Form) || (bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true"
         [ngSwitch]="child.type">
         <div *ngIf="bindToStateProperty(child.name,PropertyName.repeater,index)|async; then repeatChild else singleChild"></div>
         <ng-template #repeatChild>
           <ng-container *ngFor="let dataC of getPropValue(PropertyName.outputData); let i = index">
-            <m-card      [class]="['flex',
+            <m-card      [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
-                           [style.height]="'100%'"
-                           [style.width]="'100%'"
                            *ngSwitchCase="ComponentType.Card"
                            [name]="child.name"
                             [index]="i"
                             [data]="dataC"
             ></m-card>
-            <m-dialog       [class]="['flex',
+            <m-dialog       [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
-                            [style.height]="'100%'"
-                            [style.width]="'100%'"
                             *ngSwitchCase="ComponentType.Dialog"
                             [name]="child.name"
                             [index]="i"
@@ -111,19 +137,15 @@
           </ng-container>
         </ng-template>
         <ng-template #singleChild>
-          <m-card      [class]="['flex',
+          <m-card      [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
-                         [style.height]="'100%'"
-                         [style.width]="'100%'"
                          *ngSwitchCase="ComponentType.Card"
                          [name]="child.name"
                        [index]="index"></m-card>
-          <m-dialog       [class]="['flex',
+          <m-dialog       [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
-                          [style.height]="'100%'"
-                          [style.width]="'100%'"
                           *ngSwitchCase="ComponentType.Dialog"
                           [name]="child.name"
                           [index]="index"

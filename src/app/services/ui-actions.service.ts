@@ -14,7 +14,7 @@ import {
   ActionIdType, ComponentAsSource,
   ComponentNameType, EffectAsSource, EffectIdType, isComponentAsSource, isComponentName,
   isDataLink,
-  isFormTargetType,
+  isFormTargetType, isRepeatedComponentType,
   ServerDataRequestType
 } from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
@@ -138,9 +138,9 @@ export class UiActionsService {
         const target = this.configService.effects.map(e => {
           return e.action.target
         }).find(t => {
-          return typeof t !== 'string' && t?.controls.map(c => {
+          return (typeof t !== 'string' && !(isRepeatedComponentType(t,this.configService)) && (t?.controls.map(c => {
             return c.target
-          }).includes(dl.name)
+          }).includes(dl.name)))
         })
         if (isFormTargetType(target)) {
           const field = target.controls.find(f => {
@@ -318,6 +318,8 @@ export class UiActionsService {
   }
 
   private setProperty(action: Action, data?: any, source?: string | [string, number | undefined] | [string, string] | undefined) {
+    // todo als het gaat om een repeated element en er is geen index of die is undefined,
+    //  dan moet de property van elke instance overeenkomstig gewijzigd worden
     if (typeof action.target === 'string'
       && action.value instanceof ActionValueModel
       && action.value.name === PropertyName.visible
@@ -327,7 +329,8 @@ export class UiActionsService {
         this.clientDataService.destroy(ch.name)
       })
     }
-    let val: string |number| boolean | Function | ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | undefined
+    let val: string |number| boolean | Function | ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel
+      | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | undefined
     if (typeof ((action.value as ActionValueModel).value) === 'function') {
       val = ((action.value as ActionValueModel).value as Function)(this.stateService, data)
     }
@@ -358,13 +361,23 @@ export class UiActionsService {
       }).forEach(p => {
         p.propValue.next(val)
       })
+    } else if(isRepeatedComponentType(action.target,this.configService)){
+      const targetName = action.target[0]
+      // todo dit gaat enkel werken door elke component per index aan te spreken en te vuren
+
+      this.renderPropertiesService.getStatePropertySubjects().find(prop => {
+        if (prop.componentName === targetName && action.value instanceof ActionValueModel) {
+          return prop.propName === action.value.name
+        }
+        return false
+      })?.propValue.next(val)
     } else {
       this.renderPropertiesService.getStatePropertySubjects().find(prop => {
-        if (prop.componentName === action.target && action.value instanceof ActionValueModel) {
+         if (prop.componentName === action.target && action.value instanceof ActionValueModel) {
           if(isComponentAsSource(source,this.configService)){
             if(action.target === source[0]){
               return prop.propName === action.value.name && prop.index === source[1]
-            } else{
+            }  else{
               return prop.propName === action.value.name
             }
           } else{

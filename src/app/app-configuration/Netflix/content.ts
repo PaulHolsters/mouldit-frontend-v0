@@ -5,9 +5,11 @@ import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import UtilFunctions from "../../utils/utilFunctions";
 import {Datalink} from "../../design-dimensions/datalink";
 import {CursorValues} from "../../enums/cursorValues.enum";
+import {RowLayoutConfigModel} from "../../design-dimensions/ComponentSpecificLayout/Container/RowLayoutConfigModel";
+import {HorizontalRowLayoutConfigType} from "../../enums/HorizontalRowLayoutConfigTypes.enum";
 
 export const content = new Container('content')
-const card = new Card('movie')
+const card = new Card('movie-card')
 card.structural.smartphone
   .setPropertyByData(PropertyName.title,new Datalink('titel'))
   .setPropertyByData(PropertyName.subtitle,new Datalink('jaar'))
@@ -26,4 +28,7 @@ remove.visibility.smartphone.setPropertyByData(PropertyName.visible,inList)
 btnContainer.setChildren([add,remove])
 card.contentInjection.smartphone.footer = btnContainer
 card.structural.smartphone.repeater = true
-content.setChildren([card])
+content.setChildren([card]);
+(content.componentSpecificLayout.smartphone.layout as RowLayoutConfigModel)
+  .setHorizontalLayoutOfChildren(HorizontalRowLayoutConfigType.Around)
+// todo uitdaging: zorg dat alle cards de breedte hebben voor de breedste card: min-width = custom function

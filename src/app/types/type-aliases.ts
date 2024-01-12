@@ -22,6 +22,10 @@ export type PropsByDataType = Array<DataDependedPropType>
 export type DataDependedPropType = [PropertyName, Datalink, Function[]]
 export type EffectAsSource = [EffectIdType,number|undefined]
 export type ComponentAsSource = [ComponentNameType,number|undefined]
+export type RepeatedComponentType = [ComponentNameType,true]
+export const isRepeatedComponentType = function isRepeatedComponentType(data:unknown,config:ConfigService):data is RepeatedComponentType{
+  return data instanceof Array && data.length===2 && isComponentName(data[0],config) && data[1]===true
+}
 export const isComponentAsSource = function isComponentAsSource(data:unknown,config:ConfigService): data is ComponentAsSource{
   return data instanceof Array && data.length===2 && isComponentName(data[0],config) && (data[1]===undefined||typeof data[1]==='number')
 }
@@ -59,7 +63,7 @@ export const isFormTargetType = function isFormTargetType(data:unknown):data is 
 }
 
 export type ServerDataRequestType = {
-  concept: ConceptNameType, target: ComponentNameType | FormTargetType, action: ActionType, actionId: ActionIdType, data: string
+  concept: ConceptNameType, target: RepeatedComponentType|ComponentNameType | FormTargetType, action: ActionType, actionId: ActionIdType, data: string
 }
 export const isServerDataRequestType = function isServerDataRequestType(data: unknown): data is ServerDataRequestType {
   return data !== null && typeof data === 'object' && !(data instanceof Array)

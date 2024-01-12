@@ -10,7 +10,7 @@ import {
   ComponentNameType,
   ConceptNameType, EffectAsSource, EffectIdType, FormTargetType, isActionIdType,
   isComponentName, isFormTargetType,
-  isFrontendDataType, ServerDataRequestType
+  isFrontendDataType, isRepeatedComponentType, ServerDataRequestType
 } from "../../../types/type-aliases";
 import {ConfigService} from "../../config.service";
 import {StateService} from "../../state.service";
@@ -143,7 +143,7 @@ export class ClientDataService {
         const target = this.configService.effects.map(e=>{
           return e.action.target
         }).find(t=>{
-          return typeof t !== 'string' && t?.controls.map(c=>{
+          return typeof t !== 'string'&& !isRepeatedComponentType(t,this.configService)  && t?.controls.map(c=>{
             return c.target
           }).includes(searchValue)
         })
@@ -234,7 +234,7 @@ export class ClientDataService {
     const target = this.configService.effects.map(e=>{
       return e.action.target
     }).find(t=>{
-      return typeof t !== 'string' && t?.controls.map(c=>{
+      return typeof t !== 'string'&& !isRepeatedComponentType(t,this.configService)  && t?.controls.map(c=>{
         return c.target
       }).includes(name)
     })

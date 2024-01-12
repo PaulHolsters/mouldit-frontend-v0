@@ -1,4 +1,4 @@
-import {AfterContentChecked, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterContentChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import {TriggerType} from "../../enums/triggerTypes.enum";
 import {RootComponent} from "../../app-configuration/Netflix/body"
@@ -12,10 +12,9 @@ import {ComponentNameType} from "../../types/type-aliases";
   templateUrl: './container.component.html',
   styleUrls: ['./container.component.css']
 })
-export class ContainerComponent extends AbstractComponent implements OnInit, AfterContentChecked {
+export class ContainerComponent extends AbstractComponent implements OnInit, AfterContentChecked ,AfterViewInit{
   @ViewChild('container') container: ElementRef | undefined
-  childProps: Map<ComponentNameType, (Map<PropertyName, string|undefined>)> = new Map()
-
+  childProps: Map<ComponentNameType, (Map<PropertyName, string | undefined>)> = new Map()
   ngAfterContentChecked(): void {
     this.cd.detectChanges()
   }
@@ -65,7 +64,7 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
     this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)
     this.props = Container.getProperties()
     this.props.forEach((v, k) => {
-      this.storeService.bindToStateProperty(this.name, k,this.index)?.subscribe(res => {
+      this.storeService.bindToStateProperty(this.name, k, this.index)?.subscribe(res => {
         // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
         // todo
         /*
@@ -79,62 +78,63 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
         * resend new values
         * */
         this.setPropValue(k, res)
-/*        if (k === PropertyName.children && res) {
-          // todo technisch gezien zou het aantal children gedurende de duur van de applicatie door een action kunnen wijzigen
-          this.childProps.clear();
-          (res as ComponentModelType[]).forEach(c => {
-            this.childProps.set(c.name, new Map()
-              .set(PropertyName.height, undefined)
-              .set(PropertyName.width, undefined)
-              .set(PropertyName.alignItemsStretch, undefined)
-              .set(PropertyName.overflowHidden, undefined)
-              .set(PropertyName.overflowXHidden, undefined)
-              .set(PropertyName.overflowAuto, undefined)
-              .set(PropertyName.overflowXAuto, undefined)
-              .set(PropertyName.overflowScroll, undefined)
-              .set(PropertyName.overflowXScroll, undefined)
-              .set(PropertyName.visible, undefined)
-              .set(PropertyName.holdSpace, undefined)
-            )
-            debugger
-            this.storeService.bindToStateProperty(c.name, PropertyName.height)?.subscribe(res=>{
-              this.childProps.get(c.name)?.set(PropertyName.height,res as string)
-            })
-            this.storeService.bindToStateProperty(c.name, PropertyName.width)?.subscribe(res=>{
-              this.childProps.get(c.name)?.set(PropertyName.width,res as string)
-            })
-            this.storeService.bindToStateProperty(c.name, PropertyName.alignItemsStretch)?.subscribe(res=>{
-              this.childProps.get(c.name)?.set(PropertyName.alignItemsStretch,res as string)
-            })
-            this.storeService.bindToStateProperty(c.name, PropertyName.overflowHidden)?.subscribe(res=>{
-              this.childProps.get(c.name)?.set(PropertyName.overflowHidden,res as string)
-            })
-            this.storeService.bindToStateProperty(c.name, PropertyName.overflowXHidden)?.subscribe(res=>{
-              this.childProps.get(c.name)?.set(PropertyName.overflowXHidden,res as string)
-            })
-            this.storeService.bindToStateProperty(c.name, PropertyName.overflowAuto)?.subscribe(res=>{
-              this.childProps.get(c.name)?.set(PropertyName.overflowAuto,res as string)
-            })
-            this.storeService.bindToStateProperty(c.name, PropertyName.overflowXAuto)?.subscribe(res=>{
-              this.childProps.get(c.name)?.set(PropertyName.overflowXAuto,res as string)
-            })
-            this.storeService.bindToStateProperty(c.name, PropertyName.overflowScroll)?.subscribe(res=>{
-              this.childProps.get(c.name)?.set(PropertyName.overflowScroll,res as string)
-            })
-            this.storeService.bindToStateProperty(c.name, PropertyName.overflowXScroll)?.subscribe(res=>{
-              this.childProps.get(c.name)?.set(PropertyName.overflowXScroll,res as string)
-            })
-            this.storeService.bindToStateProperty(c.name, PropertyName.visible)?.subscribe(res=>{
-              this.childProps.get(c.name)?.set(PropertyName.visible,res as string)
-            })
-            this.storeService.bindToStateProperty(c.name, PropertyName.holdSpace)?.subscribe(res=>{
-              this.childProps.get(c.name)?.set(PropertyName.holdSpace,res as string)
-            })
-          })
-        }*/
+        /*        if (k === PropertyName.children && res) {
+                  // todo technisch gezien zou het aantal children gedurende de duur van de applicatie door een action kunnen wijzigen
+                  this.childProps.clear();
+                  (res as ComponentModelType[]).forEach(c => {
+                    this.childProps.set(c.name, new Map()
+                      .set(PropertyName.height, undefined)
+                      .set(PropertyName.width, undefined)
+                      .set(PropertyName.alignItemsStretch, undefined)
+                      .set(PropertyName.overflowHidden, undefined)
+                      .set(PropertyName.overflowXHidden, undefined)
+                      .set(PropertyName.overflowAuto, undefined)
+                      .set(PropertyName.overflowXAuto, undefined)
+                      .set(PropertyName.overflowScroll, undefined)
+                      .set(PropertyName.overflowXScroll, undefined)
+                      .set(PropertyName.visible, undefined)
+                      .set(PropertyName.holdSpace, undefined)
+                    )
+                    debugger
+                    this.storeService.bindToStateProperty(c.name, PropertyName.height)?.subscribe(res=>{
+                      this.childProps.get(c.name)?.set(PropertyName.height,res as string)
+                    })
+                    this.storeService.bindToStateProperty(c.name, PropertyName.width)?.subscribe(res=>{
+                      this.childProps.get(c.name)?.set(PropertyName.width,res as string)
+                    })
+                    this.storeService.bindToStateProperty(c.name, PropertyName.alignItemsStretch)?.subscribe(res=>{
+                      this.childProps.get(c.name)?.set(PropertyName.alignItemsStretch,res as string)
+                    })
+                    this.storeService.bindToStateProperty(c.name, PropertyName.overflowHidden)?.subscribe(res=>{
+                      this.childProps.get(c.name)?.set(PropertyName.overflowHidden,res as string)
+                    })
+                    this.storeService.bindToStateProperty(c.name, PropertyName.overflowXHidden)?.subscribe(res=>{
+                      this.childProps.get(c.name)?.set(PropertyName.overflowXHidden,res as string)
+                    })
+                    this.storeService.bindToStateProperty(c.name, PropertyName.overflowAuto)?.subscribe(res=>{
+                      this.childProps.get(c.name)?.set(PropertyName.overflowAuto,res as string)
+                    })
+                    this.storeService.bindToStateProperty(c.name, PropertyName.overflowXAuto)?.subscribe(res=>{
+                      this.childProps.get(c.name)?.set(PropertyName.overflowXAuto,res as string)
+                    })
+                    this.storeService.bindToStateProperty(c.name, PropertyName.overflowScroll)?.subscribe(res=>{
+                      this.childProps.get(c.name)?.set(PropertyName.overflowScroll,res as string)
+                    })
+                    this.storeService.bindToStateProperty(c.name, PropertyName.overflowXScroll)?.subscribe(res=>{
+                      this.childProps.get(c.name)?.set(PropertyName.overflowXScroll,res as string)
+                    })
+                    this.storeService.bindToStateProperty(c.name, PropertyName.visible)?.subscribe(res=>{
+                      this.childProps.get(c.name)?.set(PropertyName.visible,res as string)
+                    })
+                    this.storeService.bindToStateProperty(c.name, PropertyName.holdSpace)?.subscribe(res=>{
+                      this.childProps.get(c.name)?.set(PropertyName.holdSpace,res as string)
+                    })
+                  })
+                }*/
       })
     })
   }
+
   setCalculatedHeight(val: any): boolean {
     if (typeof val === 'string') {
       this.container?.nativeElement.style.setProperty('--heightVal', 'calc' + val + '')
@@ -158,11 +158,17 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
   getGrowVal(componentName: string): Observable<number> {
     return this.storeService.bindToStateProperty(componentName, 'grow') as Observable<number>
   }
+  ngAfterViewInit(): void {
+    this.cd.detectChanges()
+    this.stateService.syncData(this.name,{key:PropertyName.elRef,value:this.container},this.index)
+    this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name,this.container)
+    debugger
+  }
+  bindToStateProperty(componentName: string, property: string, index: number | undefined): Observable<string | boolean> {
+    return this.storeService.bindToStateProperty(componentName, property, index) as Observable<string | boolean>
+  }
 
-    bindToStateProperty(componentName: string, property: string,index:number|undefined): Observable<string> {
-      return this.storeService.bindToStateProperty(componentName, property,index) as Observable<string>
-    }
-/*  getChildProp(componentName: string, property: PropertyName): string | undefined {
-    return this.childProps.get(componentName)?.get(property)
-  }*/
+  /*  getChildProp(componentName: string, property: PropertyName): string | undefined {
+      return this.childProps.get(componentName)?.get(property)
+    }*/
 }

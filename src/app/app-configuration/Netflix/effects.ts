@@ -16,9 +16,23 @@ import {VerbType} from "../../enums/VerbTypes.enum";
 
 // todo als de scherm breedte manueel gewijzigd wordt dan gaan bepaalde opstart eigenschappen niet meegenomen worden
 //  zoals deze compute property
-const setFooterHeight = (stateService: StateService, data: any): string => {
-  return getComputedStyle(data.el.nativeElement).height // 50px
+const setFooterHeight = (stateService: StateService): string => {
+  // hoe kan je hier naam en index kennen?
+  return getComputedStyle(stateService.getValue('menu',PropertyName.elRef).el.nativeElement).height // 50px
 }
+const setCardWidth = (stateService: StateService): string => {
+  debugger
+  // hoe kan je hier naam en index kennen?
+  return getComputedStyle(stateService.getValue('card',PropertyName.elRef).el.nativeElement).width // 50px
+}
+// todo we moeten de trigger creëren:
+/**
+ * container content is afterviewinit gerendered => state service doorgeven = trigger
+ * per gerendered element (afterviewinit) => de referentie bewaren in de state service
+ *
+ *
+ */
+
 const allowDetails = (eventService: EventsService,data:any):boolean =>{
   return !(eventService.hasEffect(['removing movie from my list',data[1]])
     || eventService.hasEffect(['adding movie to my list',data[1]]))
@@ -33,6 +47,14 @@ export const effects: Effect[] = [
       'footer',
       NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.height,setFooterHeight))),
+  new Effect(
+    new Trigger(TriggerType.ComponentReady,'content'),
+    new Action(
+      'UI-card-width',
+      ActionType.SetRenderProperty,
+      ['movie-card',true],
+      NoValueType.NO_VALUE_ALLOWED,
+      new ActionValueModel(PropertyName.width,'100%'))),
   new Effect(
     new Trigger(TriggerType.MenuItemSelected,['menu','films']),
     new ServerAction('GET_films','localhost:4848/films',VerbType.GET,'content')
@@ -52,39 +74,39 @@ export const effects: Effect[] = [
     new Action('set_toast_message',ActionType.ShowToastMessage,'toast')
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentClicked,'movie','movie-card-clicked',allowDetails),
+    new Trigger(TriggerType.ComponentClicked,'movie-card','movie-card-clicked',allowDetails),
     new Action('showMovieDetails',ActionType.SetRenderProperty,'movie-details-dialog',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.visible, true)),
     NoValueType.NO_VALUE_NEEDED
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentEntered,'movie'),
-    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+    new Trigger(TriggerType.ComponentEntered,'movie-card'),
+    new Action('set background',ActionType.SetRenderProperty,'movie-card',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.backgroundColor, BackgroundColorType.Highlight))
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentEntered,'movie'),
-    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+    new Trigger(TriggerType.ComponentEntered,'movie-card'),
+    new Action('set background',ActionType.SetRenderProperty,'movie-card',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.borderColor, BorderColorType.Primary))
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentEntered,'movie'),
-    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+    new Trigger(TriggerType.ComponentEntered,'movie-card'),
+    new Action('set background',ActionType.SetRenderProperty,'movie-card',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.borderWidth, BorderWidthType.Width_2))
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentLeft,'movie'),
-    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+    new Trigger(TriggerType.ComponentLeft,'movie-card'),
+    new Action('set background',ActionType.SetRenderProperty,'movie-card',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.backgroundColor, BackgroundColorType.Default))
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentLeft,'movie'),
-    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+    new Trigger(TriggerType.ComponentLeft,'movie-card'),
+    new Action('set background',ActionType.SetRenderProperty,'movie-card',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.borderColor, BorderColorType.Default))
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentLeft,'movie'),
-    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+    new Trigger(TriggerType.ComponentLeft,'movie-card'),
+    new Action('set background',ActionType.SetRenderProperty,'movie-card',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.borderWidth, BorderWidthType.No_width))
   ),
 ]

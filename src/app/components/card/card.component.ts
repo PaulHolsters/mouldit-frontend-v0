@@ -70,6 +70,7 @@ export class CardComponent extends AbstractComponent implements OnInit {
     // met de DOM JS functie getComputedStyle(this.menubar.el.nativeElement)
     // todo implementeer dit in het algemeen voor alle componenten
     // todo en dan kan je dit ook meteen doen voor setCalculatedHeight en Width
+    this.stateService.syncData(this.name,{key:PropertyName.elRef,value:this.card},this.index)
     this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name,this.card)
 
   }

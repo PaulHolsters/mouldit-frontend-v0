@@ -4,7 +4,7 @@ import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {MultiSelect} from "../../../componentclasses/MultiSelect";
 import {DataRecord, isList, List} from "../../../types/union-types";
 import {Blueprint} from "../../../services/data/client/Blueprint";
-import {isFormTargetType} from "../../../types/type-aliases";
+import {isFormTargetType, isRepeatedComponentType} from "../../../types/type-aliases";
 
 @Component({
   selector: 'm-multiselect',
@@ -23,7 +23,7 @@ export class MultiselectComponent extends AbstractComponent implements OnInit{
           const target = this.configService.effects.map(e=>{
             return e.action.target
           }).find(t=>{
-            return typeof t !== 'string' && t?.controls.map(c=>{
+            return typeof t !== 'string' && !isRepeatedComponentType(t,this.configService) && t?.controls.map(c=>{
               return c.target
             }).includes(this.name)
           })
