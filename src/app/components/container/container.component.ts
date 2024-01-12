@@ -162,7 +162,6 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
     this.cd.detectChanges()
     this.stateService.syncData(this.name,{key:PropertyName.elRef,value:this.container},this.index)
     this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name,this.container)
-    debugger
   }
   bindToStateProperty(componentName: string, property: string, index: number | undefined): Observable<string | boolean> {
     return this.storeService.bindToStateProperty(componentName, property, index) as Observable<string | boolean>

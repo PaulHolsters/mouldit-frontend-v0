@@ -45,7 +45,7 @@ import {Message, MessageService} from "primeng/api";
   providedIn: 'root'
 })
 export class UiActionsService {
-  public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: [EffectIdType,number|undefined]|ActionIdType }>()
+  public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: [EffectIdType, number | undefined] | ActionIdType }>()
 
   constructor(
     private renderPropertiesService: RenderPropertiesService,
@@ -127,9 +127,10 @@ export class UiActionsService {
       }
     })
   }
+
   private updateDataRelatedProps(res: {
     effect: Effect,
-    data: {clientData:ClientData,effectAsSource:EffectAsSource|undefined}|undefined,
+    data: { clientData: ClientData, effectAsSource: EffectAsSource | undefined } | undefined,
     target: EventTarget | undefined
   }) {
     if (res.data) {
@@ -138,7 +139,7 @@ export class UiActionsService {
         const target = this.configService.effects.map(e => {
           return e.action.target
         }).find(t => {
-          return (typeof t !== 'string' && !(isRepeatedComponentType(t,this.configService)) && (t?.controls.map(c => {
+          return (typeof t !== 'string' && !(isRepeatedComponentType(t, this.configService)) && (t?.controls.map(c => {
             return c.target
           }).includes(dl.name)))
         })
@@ -178,26 +179,26 @@ export class UiActionsService {
     }
     return true
   }
+
   private updateDataDependedProps(res: {
     effect: Effect,
-    data: Blueprint | [ComponentNameType, DataRecord | List] | [ComponentNameType|[ComponentNameType,number], [Array<[PropertyName, Datalink, Function[]]>, DataRecord]]
+    data: Blueprint | [ComponentNameType, DataRecord | List] | [ComponentNameType | [ComponentNameType, number], [Array<[PropertyName, Datalink, Function[]]>, DataRecord]]
       | ClientData | string | ServerDataRequestType | DataRecord | List,
     target: EventTarget | undefined
   }) {
     if (
       res.data instanceof Array
       && res.data.length === 2
-      && (isComponentName(res.data[0], this.configService)||(
-        res.data[0] instanceof Array && res.data[0].length===2
-      && isComponentName(res.data[0][0],this.configService) && typeof res.data[0][1] === 'number'
+      && (isComponentName(res.data[0], this.configService) || (
+        res.data[0] instanceof Array && res.data[0].length === 2
+        && isComponentName(res.data[0][0], this.configService) && typeof res.data[0][1] === 'number'
       ))
       && res.data[1] instanceof Array && res.data[1][0] instanceof Array && res.data[1][0].length > 0) {
-      let compName:ComponentNameType
-      let index:number|undefined
-      if(isComponentName(res.data[0], this.configService)){
+      let compName: ComponentNameType
+      let index: number | undefined
+      if (isComponentName(res.data[0], this.configService)) {
         compName = res.data[0]
-      }
-      else{
+      } else {
         compName = res.data[0][0]
         index = res.data[0][1]
       }
@@ -205,33 +206,35 @@ export class UiActionsService {
 
       const data = res.data[1][1]
       let existingDataByProps // dit is dan al onmiddellijk de nieuwe
-        = this.stateService.getValue(compName, PropertyName.propsByData,index) as (Array<[PropertyName, Datalink, Function[]]> | undefined)
+        = this.stateService.getValue(compName, PropertyName.propsByData, index) as (Array<[PropertyName, Datalink, Function[]]> | undefined)
       if (!existingDataByProps) existingDataByProps = [];
       existingDataByProps.forEach(p => {
         // send new data to frontend component
         // per property in de nieuwe array en stuur ook de nieuwe array
-          this.renderPropertiesService.getStatePropertySubjects().find(prop => {
-            return prop.componentName === compName && prop.propName === p[0] && prop.index === index
-          })?.propValue.next((this.getData(data, p[1], p[2])))
+        this.renderPropertiesService.getStatePropertySubjects().find(prop => {
+          return prop.componentName === compName && prop.propName === p[0] && prop.index === index
+        })?.propValue.next((this.getData(data, p[1], p[2])))
       })
     }
     return true
   }
+
   private setUpIndexedComponent(res: {
     effect: Effect,
     data: Blueprint | [ComponentNameType, DataRecord | List] | [ComponentNameType, [Array<[PropertyName, Datalink, Function[]]>, DataRecord]]
       | ClientData | string | ServerDataRequestType | DataRecord | List,
     target: EventTarget | undefined
   }) {
-    if(res.data instanceof Array && isComponentName(res.data[0],this.configService) && typeof res.data[1]==='number'){
+    if (res.data instanceof Array && isComponentName(res.data[0], this.configService) && typeof res.data[1] === 'number') {
       const compConfig = this.configService.getConfigFromRoot(res.data[0])
-      if(compConfig){
-        this.renderPropertiesService.createProps(compConfig,res.data[1])
-        this.RBS.setState(compConfig,this.RBS.screenSize,res.data[1])
+      if (compConfig) {
+        this.renderPropertiesService.createProps(compConfig, res.data[1])
+        this.RBS.setState(compConfig, this.RBS.screenSize, res.data[1])
       }
     }
     return true
   }
+
   private getData(data: DataRecord, link: Datalink, pipe?: Function[]) {
     let head: string
     let tail: OutputData = data
@@ -257,10 +260,11 @@ export class UiActionsService {
       return curr(prev)
     }, tail)
   }
+
   private outputData(
     res: {
       effect: Effect,
-      data: {clientData:ClientData,effectAsSource:EffectAsSource|undefined}|undefined,
+      data: { clientData: ClientData, effectAsSource: EffectAsSource | undefined } | undefined,
       target: EventTarget | undefined
     }
   ) {
@@ -292,8 +296,9 @@ export class UiActionsService {
     }
     return true
   }
+
   private replace(key: string | undefined, config: ComponentModelType, value: ResponsiveSizeConfigModel
-    | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel|string |number| undefined) {
+    | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | string | number | undefined) {
     if (key) {
       Reflect.set(config, key, value)
     }
@@ -329,7 +334,7 @@ export class UiActionsService {
         this.clientDataService.destroy(ch.name)
       })
     }
-    let val: string |number| boolean | Function | ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel
+    let val: string | number | boolean | Function | ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel
       | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | undefined
     if (typeof ((action.value as ActionValueModel).value) === 'function') {
       val = ((action.value as ActionValueModel).value as Function)(this.stateService, data)
@@ -344,8 +349,8 @@ export class UiActionsService {
     })?.propValue.next(data)
 
     if (action.target === NoValueType.CALCULATED_BY_ENGINE && source) {
-      let name:string
-      if(source instanceof Array){
+      let name: string
+      if (source instanceof Array) {
         name = source[0]
       } else {
         name = source
@@ -361,26 +366,30 @@ export class UiActionsService {
       }).forEach(p => {
         p.propValue.next(val)
       })
-    } else if(isRepeatedComponentType(action.target,this.configService)){
+    } else if (isRepeatedComponentType(action.target, this.configService)) {
       const targetName = action.target[0]
-      // todo dit gaat enkel werken door elke component per index aan te spreken en te vuren
-
-      this.renderPropertiesService.getStatePropertySubjects().find(prop => {
-        if (prop.componentName === targetName && action.value instanceof ActionValueModel) {
-          return prop.propName === action.value.name
+      const parentName = this.configService.getParentConfigFromRoot(targetName)?.name
+      const arr = parentName ? this.stateService.getValue(parentName, PropertyName.outputData) : undefined
+      if (arr instanceof Array) {
+        for (let i = 0; i < arr.length; i++) {
+          this.renderPropertiesService.getStatePropertySubjects().find(prop => {
+            if (prop.componentName === targetName && action.value instanceof ActionValueModel) {
+              return prop.propName === action.value.name && prop.index === i
+            }
+            return false
+          })?.propValue.next(val)
         }
-        return false
-      })?.propValue.next(val)
+      }
     } else {
       this.renderPropertiesService.getStatePropertySubjects().find(prop => {
-         if (prop.componentName === action.target && action.value instanceof ActionValueModel) {
-          if(isComponentAsSource(source,this.configService)){
-            if(action.target === source[0]){
+        if (prop.componentName === action.target && action.value instanceof ActionValueModel) {
+          if (isComponentAsSource(source, this.configService)) {
+            if (action.target === source[0]) {
               return prop.propName === action.value.name && prop.index === source[1]
-            }  else{
+            } else {
               return prop.propName === action.value.name
             }
-          } else{
+          } else {
             return prop.propName === action.value.name
           }
         }
@@ -407,9 +416,9 @@ export class UiActionsService {
     return true
   }
 
-  private showToast(action:any) {
+  private showToast(action: any) {
     debugger
-    const message:Message = { severity: 'success', summary: 'Success', detail: 'Message Content' }
+    const message: Message = {severity: 'success', summary: 'Success', detail: 'Message Content'}
     this.renderPropertiesService.getStatePropertySubjects().find(prop => {
       return prop.componentName === action.target;
     })?.propValue.next(message)

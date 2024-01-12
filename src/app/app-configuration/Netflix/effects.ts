@@ -20,10 +20,21 @@ const setFooterHeight = (stateService: StateService): string => {
   // hoe kan je hier naam en index kennen?
   return getComputedStyle(stateService.getValue('menu',PropertyName.elRef).el.nativeElement).height // 50px
 }
-const setCardWidth = (stateService: StateService): string => {
+const setCardWidth = (stateService: StateService): string|undefined => {
+  const noc = stateService.getNumberOfComponents('movie-card')
   debugger
-  // hoe kan je hier naam en index kennen?
-  return getComputedStyle(stateService.getValue('card',PropertyName.elRef).el.nativeElement).width // 50px
+  if(noc>0){
+    // is vreemd genoeg 100% => todo fix deze bug, nergens wordt gevrgaagd om dit op 100% te zetten maar toch gebeurt dit!!!!
+    let widthstr = getComputedStyle(stateService.getValue('movie-card',PropertyName.elRef,0).el.nativeElement).width
+    let max:number = Number(widthstr.substring(0,widthstr.lastIndexOf('px')))
+    for (let i=1;i<noc;i++){
+      widthstr = getComputedStyle(stateService.getValue('movie-card',PropertyName.elRef,i).el.nativeElement).width
+      if(max<Number(widthstr.substring(0,widthstr.lastIndexOf('px')))) max=Number(widthstr.substring(0,widthstr.lastIndexOf('px')))
+    }
+    debugger
+    return max+'px'
+  }
+  return undefined
 }
 // todo we moeten de trigger creëren:
 /**
@@ -48,13 +59,13 @@ export const effects: Effect[] = [
       NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.height,setFooterHeight))),
   new Effect(
-    new Trigger(TriggerType.ComponentReady,'content'),
+    new Trigger(TriggerType.LastIndexedComponentRendered,'movie-card'),
     new Action(
       'UI-card-width',
       ActionType.SetRenderProperty,
       ['movie-card',true],
       NoValueType.NO_VALUE_ALLOWED,
-      new ActionValueModel(PropertyName.width,'100%'))),
+      new ActionValueModel(PropertyName.width,setCardWidth))),
   new Effect(
     new Trigger(TriggerType.MenuItemSelected,['menu','films']),
     new ServerAction('GET_films','localhost:4848/films',VerbType.GET,'content')

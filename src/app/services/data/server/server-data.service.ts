@@ -108,9 +108,10 @@ export class ServerDataService {
         }
         switch (action.verb){
           case VerbType.GET:
-            this.http.get<{data:any}>(url + params).subscribe((res)=>{
-              if(isList(res.data)||isDataRecord(res.data) && !isNoValueType(action.target)){
-                if (action.target)createOrUpdateClientData(this,action.id, action.target,undefined,res.data,effectAsSource)
+            this.http.get<{data:any}>(url + params).subscribe((result)=>{
+              if(isList(result.data)||isDataRecord(result.data) && !isNoValueType(action.target)){
+                this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
+                if (action.target)createOrUpdateClientData(this,action.id, action.target,undefined,result.data,effectAsSource)
               }
             })
             break

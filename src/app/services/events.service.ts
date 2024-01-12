@@ -73,7 +73,10 @@ export class EventsService{
   }
 
   private runningEffects: [EffectIdType,number|undefined][] = []
-  public triggerEvent(trigger:TriggerType,source:ComponentNameType|[ComponentNameType,string]|[ComponentNameType,(number|undefined)]|ServiceType,data?:any,target?:EventTarget){
+  public triggerEvent(trigger:TriggerType,
+                      source:ComponentNameType|[ComponentNameType,string]|[ComponentNameType,(number|undefined)]|ServiceType,
+                      data?:any,
+                      target?:EventTarget){
     // todo werk any weg op termijn hier
     if(data && data instanceof AppConfig){
       this.configService.saveConfig(data)
@@ -97,7 +100,6 @@ export class EventsService{
       } else if(isNoValueType(effect.trigger.condition) ||
         (source instanceof Array && source.length===2 && (typeof source[1] === 'number'|| source[1]===undefined)
         && effect.trigger.condition(this,source))){
-        // todo het is wellicht deze die getriggered wordt en die bevat geen source => zet source er gewoon bij
         if(typeof source === 'number'){
           this.actionsService.triggerAction(effect,data,target)
         }else {

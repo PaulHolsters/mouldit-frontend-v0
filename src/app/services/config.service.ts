@@ -80,6 +80,7 @@ export class ConfigService {
           return effect.trigger.name === trigger && effect.trigger.source === source
         }))
       } else{
+        // todo dit is de tak voor LastIndexedComponent
         return this.appConfig.userConfig.effects.filter((effect) => {
           return effect.trigger.name === trigger && effect.trigger.source === source[0]
         }).concat(...SystemEffects.getSystemEffects().filter((effect: Effect) => {

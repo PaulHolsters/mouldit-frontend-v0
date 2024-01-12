@@ -123,7 +123,9 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
                            *ngSwitchCase="ComponentType.Card"
                            [name]="child.name"
-                            [index]="i"
+                         [style.height]="(bindToStateProperty(child.name,PropertyName.height,i)|async)"
+                         [style.width]="(bindToStateProperty(child.name,PropertyName.width,i)|async)"
+                         [index]="i"
                             [data]="dataC"
             ></m-card>
             <m-dialog       [class]="[
@@ -136,6 +138,7 @@
             ></m-dialog>
           </ng-container>
         </ng-template>
+<!--        TODO width en height hier op zetten de rest werkt niet om redenen die ik totaal niet snap-->
         <ng-template #singleChild>
           <m-card      [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),

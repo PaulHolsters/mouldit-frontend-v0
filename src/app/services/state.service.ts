@@ -125,4 +125,10 @@ export class StateService {
         obj.properties.set(data.key,data.value)
     }
   }
+
+  getNumberOfComponents(targetName: string) {
+    return this.componentData.filter(cd=>{
+      return cd.name===targetName
+    }).length
+  }
 }
