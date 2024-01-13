@@ -323,8 +323,6 @@ export class UiActionsService {
   }
 
   private setProperty(action: Action, data?: any, source?: string | [string, number | undefined] | [string, string] | undefined) {
-    // todo als het gaat om een repeated element en er is geen index of die is undefined,
-    //  dan moet de property van elke instance overeenkomstig gewijzigd worden
     if (typeof action.target === 'string'
       && action.value instanceof ActionValueModel
       && action.value.name === PropertyName.visible
@@ -367,7 +365,6 @@ export class UiActionsService {
         p.propValue.next(val)
       })
     } else if (isRepeatedComponentType(action.target, this.configService)) {
-      debugger
       const targetName = action.target[0]
       const parentName = this.configService.getParentConfigFromRoot(targetName)?.name
       const arr = parentName ? this.stateService.getValue(parentName, PropertyName.outputData) : undefined
