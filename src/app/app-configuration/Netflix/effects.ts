@@ -34,13 +34,6 @@ const setCardWidth = (stateService: StateService): string|undefined => {
   }
   return undefined
 }
-// todo we moeten de trigger creëren:
-/**
- * container content is afterviewinit gerendered => state service doorgeven = trigger
- * per gerendered element (afterviewinit) => de referentie bewaren in de state service
- *
- *
- */
 
 const allowDetails = (eventService: EventsService,data:any):boolean =>{
   return !(eventService.hasEffect(['removing movie from my list',data[1]])
