@@ -73,6 +73,7 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
     // todo en dan kan je dit ook meteen doen voor setCalculatedHeight en Width
     this.stateService.syncData(this.name,{key:PropertyName.elRef,value:this.card},this.index)
     this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name,this.card)
+
     if(typeof this.index === 'number'){
       const parentName = this.configService.getParentConfigFromRoot(this.name)?.name
       if(parentName){
@@ -80,5 +81,6 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
         if(od instanceof Array && (od.length-1===this.index)) this.trigger(TriggerType.LastIndexedComponentRendered)
       }
     }
+
   }
 }

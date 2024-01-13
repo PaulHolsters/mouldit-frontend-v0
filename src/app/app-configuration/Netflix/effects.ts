@@ -24,12 +24,10 @@ const setCardWidth = (stateService: StateService): string|undefined => {
   if(noc>0){
     let widthstr = getComputedStyle(stateService.getValue('movie-card',PropertyName.elRef,0).el.nativeElement.parentElement).width
     let max:number = Number(widthstr.substring(0,widthstr.lastIndexOf('px')))
-    debugger
     for (let i=1;i<noc;i++){
       widthstr = getComputedStyle(stateService.getValue('movie-card',PropertyName.elRef,i).el.nativeElement.parentElement).width
       if(max<Number(widthstr.substring(0,widthstr.lastIndexOf('px')))) max=Number(widthstr.substring(0,widthstr.lastIndexOf('px')))
     }
-    debugger
     return max+'px'
   }
   return undefined
@@ -70,6 +68,11 @@ export const effects: Effect[] = [
     new Trigger(TriggerType.ComponentClicked,'add'),
     new ServerAction('POST_op_mijn_lijst','localhost:4848/mijn-lijst/add/659bd2769fd74132944d1171/:_id',VerbType.PUT,'content',undefined),
     'adding movie to my list'
+  ),
+  // todo nagaan hoe je omgaat met mislukte server acties
+  new Effect(
+    new Trigger(TriggerType.DataBounded,'POST_op_mijn_lijst'),
+    new Action('show message',ActionType.ShowToastMessage)
   ),
   new Effect(
     new Trigger(TriggerType.ActionFinished, 'POST_op_mijn_lijst'),

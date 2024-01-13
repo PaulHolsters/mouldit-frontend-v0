@@ -7,6 +7,8 @@ import {Datalink} from "../../design-dimensions/datalink";
 import {CursorValues} from "../../enums/cursorValues.enum";
 import {RowLayoutConfigModel} from "../../design-dimensions/ComponentSpecificLayout/Container/RowLayoutConfigModel";
 import {HorizontalRowLayoutConfigType} from "../../enums/HorizontalRowLayoutConfigTypes.enum";
+import {NonCalculatedSizeConfigModel} from "../../design-dimensions/Size/NonCalculatedSizeConfigModel";
+import {SizeUnitConfigType} from "../../enums/sizeUnitConfigTypes.enum";
 
 export const content = new Container('content')
 const card = new Card('movie-card')
@@ -28,6 +30,7 @@ remove.visibility.smartphone.setPropertyByData(PropertyName.visible,inList)
 btnContainer.setChildren([add,remove])
 card.contentInjection.smartphone.footer = btnContainer
 card.structural.smartphone.repeater = true
+content.size.smartphone.setHeight(new NonCalculatedSizeConfigModel(70,SizeUnitConfigType.Percentage))
 content.setChildren([card]);
 (content.componentSpecificLayout.smartphone.layout as RowLayoutConfigModel)
   .setHorizontalLayoutOfChildren(HorizontalRowLayoutConfigType.Around)

@@ -23,4 +23,5 @@ export enum TriggerType {
   ComponentLeft,
   ComponentClosed,
   LastIndexedComponentRendered,
+  DataBounded,
 }
