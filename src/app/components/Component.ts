@@ -25,7 +25,6 @@ export class Component implements OnChanges {
   @Input() public name!: string
   @Input() public index: number | undefined
   @Input() data: any | undefined
-
   constructor(
     protected element: ElementRef,
     protected cd: ChangeDetectorRef,
@@ -38,7 +37,6 @@ export class Component implements OnChanges {
     protected messageService: MessageService,
     protected rbs: ResponsiveBehaviourService) {
   }
-
   protected props: Map<string, any> | undefined
   protected readonly TriggerType = TriggerType
   protected readonly PropertyName = PropertyName
@@ -51,17 +49,13 @@ export class Component implements OnChanges {
   protected readonly FontStyleType = FontStyleType
   protected readonly TextColorType = TextColorType
   protected readonly TextDecorationType = TextDecorationType
-
   getPropValue(key: string, index?: number) {
     return typeof index === 'number' && this.props?.get(key) ? this.props?.get(key)[index] : this.props?.get(key)
   }
-
   trigger(trigger: TriggerType, nativeEvent?: any) {
     this.eventsService.triggerEvent(trigger, [this.name,this.index], this.data, nativeEvent?.target)
   }
-
   setPropValue(key: string, value: any, setProps?: string[], useProps?: { prop: string, use: string }[]) {
-    // todo add more typesafety
     if (this.props) {
       if (!utilFunctions.areEqual(this.props.get(key), value)) {
         if (key === PropertyName.propsByData && this.data) {

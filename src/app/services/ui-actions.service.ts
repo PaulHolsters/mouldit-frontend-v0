@@ -337,6 +337,8 @@ export class UiActionsService {
     let val: string | number | boolean | Function | ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel
       | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | undefined
     if (typeof ((action.value as ActionValueModel).value) === 'function') {
+      debugger
+      // op dit moment is width al 100%
       val = ((action.value as ActionValueModel).value as Function)(this.stateService, data)
     }
     if (!val) val = (action.value as ActionValueModel).value
@@ -367,6 +369,7 @@ export class UiActionsService {
         p.propValue.next(val)
       })
     } else if (isRepeatedComponentType(action.target, this.configService)) {
+      debugger
       const targetName = action.target[0]
       const parentName = this.configService.getParentConfigFromRoot(targetName)?.name
       const arr = parentName ? this.stateService.getValue(parentName, PropertyName.outputData) : undefined

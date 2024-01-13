@@ -11,6 +11,8 @@ import {ActionIdType, ComponentNameType, EffectIdType} from "../types/type-alias
 import {ComponentModelType, isNoValueType, RenderModelType} from "../types/union-types";
 import {ChildLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutRenderModel";
 import {Container} from "../components/container/Container";
+import {SizeConfigModel} from "../design-dimensions/Size/SizeConfigModel";
+import {SizeRenderModel} from "../design-dimensions/Size/SizeRenderModel";
 
 @Injectable({
   providedIn: 'root'

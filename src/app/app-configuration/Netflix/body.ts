@@ -31,7 +31,7 @@ templateContainer.size.smartphone.setHeight(new NonCalculatedSizeConfigModel(100
   .setVerticalLayoutOfChildren(VerticalColumnLayoutConfigType.Between)
   .setWrap(false)
 templateContainer.componentSpecificLayout.childConfig = new ChildPropertiesConfigModel()
-templateContainer.componentSpecificLayout.childConfig.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(100,SizeUnitConfigType.Percentage))
+templateContainer.componentSpecificLayout.childConfig.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(80,SizeUnitConfigType.Percentage))
 templateContainer.setChildren([
   menu,
   content,

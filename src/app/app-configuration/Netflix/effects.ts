@@ -17,18 +17,16 @@ import {VerbType} from "../../enums/VerbTypes.enum";
 // todo als de scherm breedte manueel gewijzigd wordt dan gaan bepaalde opstart eigenschappen niet meegenomen worden
 //  zoals deze compute property
 const setFooterHeight = (stateService: StateService): string => {
-  // hoe kan je hier naam en index kennen?
-  return getComputedStyle(stateService.getValue('menu',PropertyName.elRef).el.nativeElement).height // 50px
+  return getComputedStyle(stateService.getValue('menu',PropertyName.elRef).el.nativeElement).height// 50px
 }
 const setCardWidth = (stateService: StateService): string|undefined => {
   const noc = stateService.getNumberOfComponents('movie-card')
-  debugger
   if(noc>0){
-    // is vreemd genoeg 100% => todo fix deze bug, nergens wordt gevrgaagd om dit op 100% te zetten maar toch gebeurt dit!!!!
-    let widthstr = getComputedStyle(stateService.getValue('movie-card',PropertyName.elRef,0).el.nativeElement).width
+    let widthstr = getComputedStyle(stateService.getValue('movie-card',PropertyName.elRef,0).el.nativeElement.parentElement).width
     let max:number = Number(widthstr.substring(0,widthstr.lastIndexOf('px')))
+    debugger
     for (let i=1;i<noc;i++){
-      widthstr = getComputedStyle(stateService.getValue('movie-card',PropertyName.elRef,i).el.nativeElement).width
+      widthstr = getComputedStyle(stateService.getValue('movie-card',PropertyName.elRef,i).el.nativeElement.parentElement).width
       if(max<Number(widthstr.substring(0,widthstr.lastIndexOf('px')))) max=Number(widthstr.substring(0,widthstr.lastIndexOf('px')))
     }
     debugger

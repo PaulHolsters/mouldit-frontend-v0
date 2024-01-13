@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Component as AbstractComponent} from "../Component";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {TriggerType} from "../../enums/triggerTypes.enum";
@@ -10,7 +10,7 @@ import {Card} from "../../componentclasses/Card";
   styleUrls: ['./card.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CardComponent extends AbstractComponent implements OnInit {
+export class CardComponent extends AbstractComponent implements OnInit,AfterViewInit {
   @ViewChild('card') card:any|undefined
   ngOnInit(): void {
     this.props = Card.getProperties()

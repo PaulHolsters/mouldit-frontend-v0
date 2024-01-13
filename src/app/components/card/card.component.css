@@ -5,13 +5,16 @@ m-card {
   --borderColor:null;
   --borderWidth:null;
 }
+/*
+widthVal zal ergens 'auto' krijgen als waarde
+*/
 m-card > .calcHeight {
     height: var(--heightVal);
-  }
+}
 
 m-card > .calcWidth {
     width: var(--widthVal);
-  }
+}
 
 m-card > .visibilityHidden {
     visibility: hidden;
@@ -33,5 +36,4 @@ m-card > p-card > .borderWidth {
   border-width: var(--borderWidth);
   border-style: solid;
 }
-
 
