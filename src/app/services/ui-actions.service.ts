@@ -337,8 +337,6 @@ export class UiActionsService {
     let val: string | number | boolean | Function | ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel
       | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | undefined
     if (typeof ((action.value as ActionValueModel).value) === 'function') {
-      debugger
-      // op dit moment is width al 100%
       val = ((action.value as ActionValueModel).value as Function)(this.stateService, data)
     }
     if (!val) val = (action.value as ActionValueModel).value
