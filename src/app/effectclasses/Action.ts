@@ -29,7 +29,7 @@ export class Action {
       NoValueType.NO_VALUE_ALLOWED
       =NoValueType.NO_VALUE_ALLOWED,
     public value:ActionValueModel|
-      NoValueType.NO_VALUE_ALLOWED
+      NoValueType.NO_VALUE_ALLOWED|Function
       =NoValueType.NO_VALUE_ALLOWED
   ) {
     switch (type){

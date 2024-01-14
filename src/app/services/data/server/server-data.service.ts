@@ -109,6 +109,8 @@ export class ServerDataService {
         switch (action.verb){
           case VerbType.GET:
             this.http.get<{data:any}>(url + params).subscribe((result)=>{
+              // todo voor controle in voor het geval er een andere structuur wordt gebruikt dan deze
+              //      zodat de gebruiker kan aangeven in de configuratie wanneer de UI update mag doorgaan
               if(isList(result.data)||isDataRecord(result.data) && !isNoValueType(action.target)){
                 this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
                 if (action.target)createOrUpdateClientData(this,action.id, action.target,undefined,result.data,effectAsSource)

@@ -21,4 +21,5 @@ export enum ActionType {
   SetUpIndexedComponent,
   TerminateRunningEffect,
   ShowToastMessage,
+  Calculation,
 }
