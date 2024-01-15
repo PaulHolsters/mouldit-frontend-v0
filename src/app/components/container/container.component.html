@@ -165,11 +165,12 @@
                         [data]="data"
                         [index]="index"
         ></m-button>
+
         <m-container *ngSwitchCase="ComponentType.Container" [name]="child.name"  [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
-        >
-        </m-container>
+        ></m-container>
+
           <m-block       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -373,6 +374,9 @@
                          [style.height]="'100%'"
                          [style.width]="'100%'"
        ></m-form>
+        <m-toast
+                            *ngSwitchCase="ComponentType.Toast"
+                            [name]="child.name"></m-toast>
         <ng-container *ngSwitchCase="ComponentType.Table">
           <m-table          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),

@@ -28,4 +28,5 @@ export enum ServiceMethodType {
   SetUpIndexedComponent,
   DeleteEffect,
   SetToast,
+  Calculation,
 }

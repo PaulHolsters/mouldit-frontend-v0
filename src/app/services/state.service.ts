@@ -17,6 +17,7 @@ import {MultiSelect} from "../componentclasses/MultiSelect";
 import {Menubar} from "../componentclasses/Menubar";
 import {Toolbar} from "../componentclasses/Toolbar";
 import {Card} from "../componentclasses/Card";
+import {Toast} from "../componentclasses/Toast";
 @Injectable({
   providedIn: 'root'
 })
@@ -80,7 +81,7 @@ export class StateService {
       case ComponentType.Card:
         return Card.getProperties()
       case ComponentType.Toast:
-        return Card.getProperties()
+        return Toast.getProperties()
       default:
         throw new Error('Er bestaat geen component van het type '+type)
     }

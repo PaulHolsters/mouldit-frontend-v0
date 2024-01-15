@@ -13,6 +13,7 @@ import {ActionType} from "../enums/actionTypes.enum";
 import {ComponentNameType, EffectIdType} from "../types/type-aliases";
 import {StateService} from "./state.service";
 import {isNoValueType} from "../types/union-types";
+import {CalculationService} from "./calculation.service";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,8 @@ export class EventsService{
               private RBSService:ResponsiveBehaviourService,
               private storeService:RenderPropertiesService,
               private UIActionsService:UiActionsService,
-              private stateService:StateService) {
+              private stateService:StateService,
+              private calculationService:CalculationService) {
 
     this.UIActionsService.actionFinished.subscribe(res =>{
       this.triggerEvent(res.trigger,res.source)
@@ -40,7 +42,11 @@ export class EventsService{
     })
 
     this.serverDataService.actionFinished.subscribe(res =>{
-      this.triggerEvent(res.trigger,res.source)
+      this.triggerEvent(res.trigger,res.source,res.data)
+    })
+
+    this.calculationService.actionFinished.subscribe(res =>{
+      this.triggerEvent(res.trigger,res.source,res.value)
     })
 
     this.clientDataService.actionFinished.subscribe(res =>{

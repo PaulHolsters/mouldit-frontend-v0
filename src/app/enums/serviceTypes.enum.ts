@@ -6,4 +6,5 @@ export enum ServiceType {
   RenderPropertiesService,
   AnyService,
   StateService,
+  CalculationService,
 }

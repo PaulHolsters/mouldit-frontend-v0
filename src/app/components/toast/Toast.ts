@@ -18,14 +18,8 @@ import {
   ResponsiveStructuralToastConfigModel
 } from "../../design-dimensions/StructuralConfig/toast/ResponsiveStructuralToastConfigModel";
 import {
-  ResponsiveTableLayoutConfigModel
-} from "../../design-dimensions/ComponentSpecificLayout/Table/ResponsiveTableLayoutConfigModel";
-import {
   ToastContentInjectionConfigModel
 } from "../../design-dimensions/ContentInjection/toast/ToastContentInjectionConfigModel";
-import {
-  ResponsiveContentInjectionTableConfigModel
-} from "../../design-dimensions/ContentInjection/table/ResponsiveContentInjectionTableConfigModel";
 export class Toast implements ComponentI<
   ResponsiveContentInjectionToastConfigModel,
   ResponsiveStructuralToastConfigModel,

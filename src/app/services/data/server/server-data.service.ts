@@ -28,7 +28,7 @@ export class ServerDataService {
   //  todo een taal bedenken voor extra calculated fields based on related data and concepts
   //  todo a way to filter data
   //  todo a way to order data (sort)
-  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:[EffectIdType,number|undefined]|ActionIdType}>()
+  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:[EffectIdType,number|undefined]|ActionIdType,data:Object}>()
   constructor(private configService:ConfigService,
               private apollo: Apollo,
               private actionsService:ActionsService,
@@ -112,7 +112,7 @@ export class ServerDataService {
               // todo voor controle in voor het geval er een andere structuur wordt gebruikt dan deze
               //      zodat de gebruiker kan aangeven in de configuratie wanneer de UI update mag doorgaan
               if(isList(result.data)||isDataRecord(result.data) && !isNoValueType(action.target)){
-                this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
+                this.actionFinished.next({trigger:TriggerType.ActionFinished,source:action.id,data:result})
                 if (action.target)createOrUpdateClientData(this,action.id, action.target,undefined,result.data,effectAsSource)
               }
             })
@@ -139,9 +139,12 @@ export class ServerDataService {
             })
             break
           case VerbType.PUT:
-            this.http.put<{data:any}>(url + params,body).subscribe(res=>{
-              if(isList(res.data)||isDataRecord(res.data)){
-                if (action.target)createOrUpdateClientData(this,action.id, action.target,undefined,res.data,effectAsSource)
+            this.http.put<{data:any}>(url + params,body).subscribe(result=>{
+              // todo voor controle in voor het geval er een andere structuur wordt gebruikt dan deze
+              //      zodat de gebruiker kan aangeven in de configuratie wanneer de UI update mag doorgaan
+              if(isList(result.data)||isDataRecord(result.data)){
+                this.actionFinished.next({trigger:TriggerType.ActionFinished,source:action.id,data:result})
+                if (action.target)createOrUpdateClientData(this,action.id, action.target,undefined,result.data,effectAsSource)
               }
             })
             break

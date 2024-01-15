@@ -1,10 +1,11 @@
-import {DataRecord, isDataRecord, isList, isNoValueType, List} from "./union-types";
+import {ComponentModelType, DataRecord, isDataRecord, isList, isNoValueType, List} from "./union-types";
 import {ConfigService} from "../services/config.service";
 import {ExtraColumnModel} from "../design-dimensions/ContentInjection/table/ExtraColumnModel";
 import {ActionType} from "../enums/actionTypes.enum";
 import {Action} from "../effectclasses/Action";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {Datalink} from "../design-dimensions/datalink";
+import {Message} from "primeng/api";
 
 export type ConceptNameType = string
 export type ComponentNameType = string
@@ -26,8 +27,18 @@ export type RepeatedComponentType = [ComponentNameType,true]
 export const isRepeatedComponentType = function isRepeatedComponentType(data:unknown,config:ConfigService):data is RepeatedComponentType{
   return data instanceof Array && data.length===2 && isComponentName(data[0],config) && data[1]===true
 }
+export const isMessage = function isMessage(data:unknown):data is Message{
+  return (typeof data !== null) && typeof data === 'object' && !(data instanceof Array)
+  && Object.keys(data as Object).filter(k=>{
+    return !(['key','summary','detail','severity','id','value'].includes(k))
+    }).length===0
+}
 export const isComponentAsSource = function isComponentAsSource(data:unknown,config:ConfigService): data is ComponentAsSource{
   return data instanceof Array && data.length===2 && isComponentName(data[0],config) && (data[1]===undefined||typeof data[1]==='number')
+}
+export const isComponentModelType = function isComponentModelType(data:unknown,config:ConfigService): data is ComponentModelType{
+  return  (typeof data !== null) && typeof data === 'object' && !(data instanceof Array)
+    && (data as Object).hasOwnProperty('name') && config.getConfigFromRoot((data as {name:string}).name)!==undefined
 }
 export const isEffectAsSource = function isEffectAsSource(data:unknown,config:ConfigService):data is EffectAsSource{
   return data instanceof Array && data.length === 2 && isEffectIdType(data[0],config) && (typeof data[1] === 'number' || data[1]=== undefined)

@@ -48,6 +48,11 @@ export class Action {
         this.serviceMethod = ServiceMethodType.SetToast
         this.targetType = TargetType.Client
         break
+      case ActionType.Calculation:
+        this.service = ServiceType.CalculationService
+        this.serviceMethod = ServiceMethodType.Calculation
+        this.targetType = TargetType.Client
+        break
       case ActionType.CreateStore:
         this.service = ServiceType.RenderPropertiesService
         this.serviceMethod = ServiceMethodType.CreateStore

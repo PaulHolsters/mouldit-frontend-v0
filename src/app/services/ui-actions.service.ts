@@ -14,7 +14,7 @@ import {
   ActionIdType, ComponentAsSource,
   ComponentNameType, EffectAsSource, EffectIdType, isComponentAsSource, isComponentName,
   isDataLink,
-  isFormTargetType, isRepeatedComponentType,
+  isFormTargetType, isMessage, isRepeatedComponentType,
   ServerDataRequestType
 } from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
@@ -70,8 +70,8 @@ export class UiActionsService {
       }
     })
     this.actionsService.bindToAction(new Action('', ActionType.ShowToastMessage))?.subscribe(res => {
-      if (res && res.effect.action instanceof Action) {
-        const action = this.showToast(res.effect.action)
+      if (res && res.effect.action instanceof Action && isMessage(res.data)) {
+        const action = this.showToast(res.effect.action,res.data)
         if (action) {
           this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
         }
@@ -414,12 +414,10 @@ export class UiActionsService {
     return true
   }
 
-  private showToast(action: any) {
-    debugger
-    const message: Message = {severity: 'success', summary: 'Success', detail: 'Message Content'}
+  private showToast(action:Action,toast:Message) {
     this.renderPropertiesService.getStatePropertySubjects().find(prop => {
-      return prop.componentName === action.target;
-    })?.propValue.next(message)
+      return prop.componentName === action.target && prop.propName === PropertyName.message
+    })?.propValue.next(toast)
     return true
   }
 }
