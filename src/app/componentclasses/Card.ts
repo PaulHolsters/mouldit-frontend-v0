@@ -25,6 +25,7 @@ export abstract class Card extends Component{
   public static footer:ComponentModelType|null=null
   public static data: any|null=null
   public static propsByData:[PropertyName,Datalink,Function[]]|null=null
+  public static propsByDataObject:[PropertyName,Datalink,Function[]]|null=null
   public static cursor:CursorValues|null=null
   public static backgroundColor:BackgroundColorType|null=null
   public static borderColor:BorderColorType|null=null

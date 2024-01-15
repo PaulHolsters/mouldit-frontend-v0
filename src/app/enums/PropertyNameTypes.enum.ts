@@ -139,4 +139,5 @@ export enum PropertyName {
   templateComponent = 'templateComponent',
   message = 'message',
   elRef='elRef',
+  propsByDataObject='propsByDataObject',
 }

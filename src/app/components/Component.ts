@@ -112,6 +112,9 @@ export class Component implements OnChanges {
     if (typeof this.index === 'number' && this.name) {
       this.eventsService.triggerEvent(TriggerType.IndexUpdated, ServiceType.DataService, [this.name, this.index])
     }
+    if(this.data && this.getPropValue(PropertyName.propsByDataObject)){
+      // todo zet de nodige waarden in this.props en zet waarden in init enkel nog indien deze niet in propByDataObject voorkomen => maw algemene component
+    }
   }
 
 }
