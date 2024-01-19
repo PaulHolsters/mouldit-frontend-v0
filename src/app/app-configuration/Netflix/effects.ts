@@ -86,8 +86,6 @@ export const effects: Effect[] = [
     new ServerAction('DELETE_van_mijn_lijst', 'localhost:4848/mijn-lijst/remove/659bd2769fd74132944d1171/:_id', VerbType.PUT, 'content', undefined),
     'removing movie from my list'
   ),
-
-
   // todo test naderhand of een mislukte serveractie problemen geeft bij de UI update acties uit je configuraties
   //      het is simple: alleen wanneer de return data conform is wordt de UI geupdate anders niet
   new Effect(

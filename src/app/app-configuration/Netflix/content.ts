@@ -30,6 +30,7 @@ remove.visibility.smartphone.setPropertyByData(PropertyName.visible,inList)
 btnContainer.setChildren([add,remove])
 card.contentInjection.smartphone.footer = btnContainer
 card.structural.smartphone.repeater = true
+// todo fix bug deze 70% komt qua hoogte nu op content de buitenste en de binnenste div: de rest is nu in orde
 content.size.smartphone.setHeight(new NonCalculatedSizeConfigModel(70,SizeUnitConfigType.Percentage))
 content.setChildren([card]);
 (content.componentSpecificLayout.smartphone.layout as RowLayoutConfigModel)

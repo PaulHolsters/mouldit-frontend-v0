@@ -105,7 +105,6 @@ export class ConfigService {
   }
 
   public getConfigFromRoot(nameComponent: string): ComponentModelType | undefined {
-    // todo fix bug, bij een repeated component krijg je undef terug??
     if ((this.appConfig.userConfig).components.length !== 1) throw new Error('Only one root component named content-container is allowed')
     return this.getConfigFromComponent(nameComponent, (this.appConfig.userConfig).components[0])
   }
